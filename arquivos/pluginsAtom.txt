@@ -1,0 +1,18 @@
+# plugins do atom
+#packages
+pretty-json
+platformio-ide-terminal
+pdf-view
+linter
+linter-ui-default
+linter-pylama
+language-ini
+MagicPython
+atom-beautify
+autocomplete-python
+busy-signal
+file-icons
+
+#themas
+gloom
+

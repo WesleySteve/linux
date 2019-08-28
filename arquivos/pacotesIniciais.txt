@@ -1,0 +1,2 @@
+sudo apt-get install build-essential python3-dev python3-virtualenv virtualenv git-cola python3-pip
+

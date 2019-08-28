@@ -1,0 +1,11 @@
+# para criar o virtualenv
+python3 -m venv .venv
+
+virtualenv --python=versao_do_python nome_do_ambiente
+rodar o comando source para ativar a virtualenv
+	ex: source bin/activate
+para desativar a virtualenv digite o comando deactivate
+
+
+
+
