@@ -1,0 +1,11 @@
+# comando instala ou atualiza a versão do docker
+
+curl -fsSL http://get.docker.com/ | sh
+
+# para dar start no serviço
+
+/etc/init.d/docker start
+ou
+service docker start
+
+
