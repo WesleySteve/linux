@@ -1,0 +1,15 @@
+# comando para rodar sqlserver 2019 via docker no linux
+ # os valores antes dos ' : ' é o local na maquina fisica e depois dos ' : ' é o local onde ficará dentro da imagem
+  # -p identifica porta
+  # -d é para n travar o terminal , ou seja ela ficará rodando em background
+dotnet run --name testwssqlserver2019-cptp2-1 -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=SqlServer2019!' -v
+ /home/nomeUsuario/pastaDestino/SQLServer2019-CTP2.2:/var/opt/mssql  -p 41433:1433 -d mcr.microsoft.com/mssql/server.2019-CTP2.2-ubuntu
+
+
+# ferramenta tpw o sql management studio para linux
+azure data studio
+
+# adicionar pacotes
+dotnet add package nome_do_pacote
+
+
