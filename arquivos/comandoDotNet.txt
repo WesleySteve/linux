@@ -1,0 +1,21 @@
+# para criar um projeto dotnet via terminal
+
+# com isso aparece varios templates  
+dotnet new 
+# utilizando o nome q esta na frente como por exemplo 'web'
+ # c# é o padrão
+  # deve ser usado a flag -n
+dotnet new mvc -n nome_do_projeto
+
+# para recuperar os pacores
+dotnet restore
+
+# para rodar complilar o projeto
+dotnet build
+
+# rodar 
+dotnet run
+
+
+
+
