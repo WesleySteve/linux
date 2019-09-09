@@ -1,0 +1,69 @@
+Criando pasta e projeto:
+mkdir app
+cd app
+dotnet new webapi
+
+Código abaixo na nova classe:
+namespace app.Models
+{
+ public class Cliente
+ {
+  public int Id { get; set; }
+  public string Nome { get; set; }
+  public string Telefone { get; set; }
+  public string Email { get; set; }
+ }
+}
+
+ 
+Instalação dos pacotes:
+
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite 
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite.Design 
+dotnet add package Microsoft.EntityFrameworkCore.Tools 
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+ 
+Banco de dados e a classe de contexto:
+
+dotnet ef dbcontext scaffold "Data Source=local.db" Microsoft.EntityFrameworkCore.Sqlite -o Models -f -c DemoDbContext 
+
+ 
+Referência à entidade:
+
+public DbSet＜Cliente＞ Clientes { get; set; }
+
+ 
+Migração e atualização do banco de dados:
+
+dotnet ef migrations add FirstMigration
+dotnet ef database update
+
+
+Novo controller:
+
+dotnet-aspnet-codegenerator -p "app.csproj" controller -name ClienteController -api -m app.Models.Cliente -dc DemoDbContext -outDir Controllers -namespace app.Controllers
+
+
+* Se o comando acima falhar, instale o geradore de código globalmente com o comando:
+ 
+dotnet tool install --global dotnet-aspnet-codegenerator
+
+
+Contexto no startup:
+
+services.AddDbContext＜Models.DemoDbContext＞(options =＞ options.UseSqlite("Data Source=local.db"));
+
+
+Referência ao namespace do entity framework:
+
+using Microsoft.EntityFrameworkCore;
+
+
+Requisição no postman:
+
+{
+ "Nome":"Fernando",
+ "Telefone":"(11)5464654654",
+ "Email":"contato@fernandovezzali.com"
+}

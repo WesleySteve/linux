@@ -1,0 +1,629 @@
+# para criar uma imagem docker 
+docker container run nome_da_image
+
+# docker -  é o executor do comando
+# container -  indica que o comando vai atuar em um container
+# run - é a porta de entrada no Docker e realiza 4 operações:
+Baixa a imagem não encontrada localmente:  docker image pull
+Cria o container:  docker container create
+Inicializa o container:  docker container start
+Uso do modo interativo executa um comando:  docker container exec
+
+
+# para mostrar os container em execução utilizamos do comando
+docker container ps
+
+# se passar a flag -a mostra todos os container criados
+
+# para visualizar as imagens criadas
+docker image
+
+
+# o comando docker container run sempre cria um novo container
+
+# ------------------------------------------------------------------------------------------------
+
+# instalando docker no linux
+com base no link de instalação no sistema operacional Ubuntu
+
+https://docs.docker.com/install/linux/docker-ce/ubuntu
+
+
+# -------------------------------------------------------------------------------
+
+# baixando uma imagem do docker hub
+docker image pull alpine
+# se colocar o : na frente isso identificar uma tag. com isso podemos baixar versões anteriores da imagem escolhida
+
+# esse comando indica que estou executando o comando ls dentro da imagem alpine e fechando o container
+  docker container run alpine ls -l
+
+# para criar um container e entrar dentro do mesmo
+
+# -i --> mantem uma entrada padrão -STDIN  aberta mesmo se não esstiver conectado
+   # i --> modo iterativo
+# -t --> aloca um pseudo-TTY ou seja um termina
+   # i --> mostra um terminal
+ docker container run -it alpine /bin/sh
+
+
+exit para sair do terminal da imagem
+
+# para reutilizar o mesmo container
+ # não precisa utilizar o numero inteiro apenas os 4 primeiros numeros
+docker container start e o numero do id 
+
+# comando para verificar se tem container executado
+docker container ps
+
+# para executar um comando no container q esta ativo
+docker container exec e o id do container  e o comando
+
+# para parar o container em execução
+docker container stop e o nome do container
+
+# para criar um container atribuindo um nome para ele
+docker container run --name nome_do_container em seguida a imagem q sera utilizada para criar o mesmo
+
+# para remover um container 
+docker container rm  e o nome do container 
+
+# -----------------------------------------------------------------------------
+
+# mapeando portas de um container
+
+# principal papel dos containers é: empacotar e isolar a sua aplicação e suas dependencias de forma a poder executar em qualquer lugar
+# algumas coisas devem ser compartilhadas como por exemplo portas
+
+# cenario Windows 10 como host principal
+  # virtualbox com ubuntu
+   # docker instalado
+     # criar um container do nginx em sua porta padrão 80
+ # mapear no host principal a porta 8080 para acessar via navegador Web
+
+# esse comando irá baixar a imagem oficial do docker hub do nginx e será atribuido o nome de ws1 
+ # e irá subir o container e deixar o terminal travado
+docker container run --name ws1 nginx
+
+# dessa forma se tentarmos acessar localhost no naveganão apresentará resultado por motivos do container estar isolado
+
+# uma das formas de mapear a porta padrão do container para o meu ambiente onde está sendo executado o docker é
+  # -P --> liberar a porta padrão do serviço do nginx de dentro do container para o host de onde esta executando o docker da mesma.
+   # mapeando a porta do nginx para uma porta aleatória entre 49153 a 665535 do host
+  # -d --> para deixar o terminal liberado para novos comando, assim deixar o comando do docker rodando em segundo plano
+docker container run --name ws1 -P -d nginx
+
+# 0.0.0:numero  --> o valor que esta em numero é a porta aleatória para ser acessada via navegador
+
+# para definir a porta utilizamos do parametro -p numero_da_porta  especifica
+docker container run --name ws1 -p 8080:80 -d nginx
+ # -p --> mapeia a porta 80 do container para a porta 8080 do host
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+# mapear pastas do container para o host
+
+# -v pasta_host:pasta_container
+
+# quando acessar o navegador no host ele será direcionado para a pasta com o novo arquivo criado e não mais para o arquivo padrão q acessava
+
+docker container --name ws1 -p 8080:80 -d -v $(pwd)/html:/usr/share/nginx/html nginx
+
+# -p --> porta do host e do container
+# -d --> para executar o terminal em segundo plano
+# -v --> mapear a pasta do host para a pasta do container  $(pwd)/html para /usr/share/nginx/html
+
+# nginx --> nome da imagem usada para criar o container
+
+# cria a pasta inicialmente no sistema host e depois inicia a imagem fazendo os mapeamentos necessarios
+
+# o comando 
+docker container inspect nome_do_container
+# isso listará diversas informações do mesmo
+ # e a parte importante desta informação é o Monts ( onde possui o mapeamento da pasta do host para a pasta do container )
+
+# se fizer isso vc poderá excluir o container sem perder os dados ( assim só criar um novo container e remapear a mesma pasta )
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# removendo images docker
+docker image rmi usando_os_quatro_primeiros_caracteres_da_imagem
+
+# baixando a imagem
+docker image pull nginx
+
+# dockerfile é um arquivo onde contem as instruções de quais imagens serão utilizadas 
+# e o comando docker build -t <imagem> é para efetivar a construção da imagem final definida no dockerfile
+
+
+# criando Dockerfile
+
+# dockerfile --> arquivo com instruções para criar a imagem
+# build --> responsavel em gerar a imagem lendo o arquivo dockerfile
+# run --> subindo a imagem definida no arquivo dockerfile
+
+
+# exemplo utilizando a imagem do debia 8
+
+# definir as etapas de uso para criar uma imagem
+
+# 1 definir a imagem base a ser usada
+# 2 definir as informações para a imagem
+# 3 executar comandos para INSTALAR  e  INICIAR o nginx
+# 4 expor qual PORTA O SERVIDOR vai atender ( no container )
+# 5 definir O PONTO DE ENTRADA da aplicação  --> pasta onde será executado um comando para executar a aplicação
+# 6 definir a execução de um COMANDO para INICIALIZAR o servidor NGINX
+
+
+# o arquivo não possui extensão
+
+ # dados do arquivo dockerfile
+# -----------------------------------------------------------------------------------------------------------------------------
+# comando que define a imgaem base
+ # debian o nome da imagem
+ # :8 versão da imagem tag
+FROM debian:8
+# informações da imagem
+LABEL version "1.0" description="Debian/Nginx"
+# execução
+#RUN --> sendo definido de forma concatenado ou executando cada um em uma linha
+RUN apt-get update && apt-get install -y nginx && apt-get clean
+# expor a porta que o nginx ira atender
+EXPOSE 80
+# definir o ponto de entrada da aplicação ( caminho de onde a aplicação será executada ) a definição fica entre [ ]
+ENTRYPOINT ["/usr/sbin/nginx"]
+# CMD ( define os comandos a serem executados
+ # modo iterativo
+CMD ["-g","daemon off;"]
+
+# --------------------------------------------------------------------------------------------------------------------------------
+
+# para construir a imagem
+docker build -t caminho/nome_da_imagem .
+
+# docker build --> comando que constrói a imagem 
+# -t usado para informar que a imagem pertence ao meu usuario
+# exemplo/img:1.0 --> define o nome da imagem e a TAG atribuida a imagem
+# . significa diretório atual ( ou deve indicar onde esta o arquivo dockerfile no momento de escrever o comando docker build )
+
+# pode-se depois subir a imagem no docker hub utilizando dos comandos
+docker login
+docker push <nome_da_imagem>
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+
+# conteinerizando uma aplicação aspnet core mvc
+
+# link
+https://hub.docker.com/ /microsft-dotnet-core
+
+# criando uma imagem
+
+# etapas
+
+# 1 criar uma aplicação ASPNET Core MVC (Deploy)
+# 2 criar um DOCKERFILE para criar uma imagem customizada com base na imagem base
+# 3 criar um CONTAINER com base na imagem customizada
+
+# -------------------------------------------------------------------
+
+  # arquivo dockerfile a ser criado
+# -----------------------------------------------------------------
+FROM microsoft/dotnet:2.2-aspnetcore:runtime
+
+LABEL version="1.0" mainteiner="NomeDeQuemCriou"
+
+WORKDIR /app
+
+COPY ./src/Mvc1/dist .
+
+ENTRYPOINT ["dotnet", "Mvc1.dll"]
+
+# -----------------------------------------------------------------------
+
+# em seguida 
+docker container run -p 5000:80 nome_da_imagem_com_a_tag_definida
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+# VOLUMES
+
+# Ao criar um VOLUME e definir o seu mapeamento toda a informação que for armazenada no container será armazenada NÂO NA CAMADA DO CONTAINER
+# mas na pasta mapeada do DOCKER HOST
+
+# Principais usos 
+
+ # 1 para manter os dados quando um conteiner for removido
+ # 2 para compartilhar dados entre o sistema de arquivos do host e o container do Docker
+ # 3 para compartilhar dados com outros containers do Docker
+
+# criar um VOLUME
+
+docker container run -v PASTA_HOST:PASTA_CONTAINER  IMAGEM
+
+# -v $(pwd)/teste:/usr/share
+
+
+# exemplo
+
+docker container run -it --name apl1 -v $(pwd)/teste:/usr/share alpine
+
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+# volumes
+
+docker volume create nome_do_volume
+
+# utilizando o comando 
+docker image inspect mysql:5.7
+
+# na saida deste comando vemos a seção VOLUMES que indica que a imagem usa o volume para o diretoeio /var/lib/mysql  
+# que é o local onde o MySQL armazena os seus arquivos de dados 
+
+
+# docker container run -d --name mysql -v dadosdb:/var/lib/mysql -e MYSQL_ROOT_PASSWORK=numsey mysql:5.7
+
+ # para acessar o container via terminal e logar no MYSQL e criar um DATABASE
+
+docker container exec -it mysql/bin/bash
+
+# logar no mysql
+mysql -u root -p
+# digitando a senha q foi definida na criação do container
+
+# ao criar volumes e referenciar no container mesmo se excluir o container os dados que foram armazenados no volume não serão perdidos
+
+# -------------------------------------------------------------------------------------------------------------------------------
+
+# apresentando as redes do docker
+
+# comunicação entre container 
+
+# entendo o conceito de rede virtual
+
+# quando vc inicia um container, o Docker conecta-o a uma REDE VIRTUAL INTERNA e atribui a ele um ENDERECO IP para que ele possa se comunicar
+# com o SERVIDOR HOST e com outros CONTEINERES na mesma rede 
+
+# para o conteiner MVC conversar com o conteiner do banco de dados MySQL precisamos saber o ENDERECO IP 
+# o Docker atribuiu ao conteiner do MySQL
+
+# para isso utilizams do comando
+docker network inspect bride
+
+# na aba Container
+ # esta as informações necessárias
+
+# as redes definidas por Software(SDN) ou redes virtuais
+
+
+# As SDNs se comportam como redes tradicionais e usam portas de endereços IP regulares, mas não há interfaces de rede fisica e a 
+# infraestrutura para as redes, como serviços de nomes e roteamento, são fornecidos pelo Docker
+
+
+# Por padrão o docker é disponibilizado com 3 redes que oferecem configurações especificas para gerenciar o tráfego de dados
+
+# para visualizar essas redes
+docker network ls
+
+
+# 1 a rede HOST é a rede do servidor host
+# 2 a rede NONE é a rede que não possui conectividade e que pode ser usada para isolar completamente os containers
+# 3 a rede BRIDGE é a que nos interessa, pois o Docker adiciona todos os containeres a essa rede quando os cria.
+    # ( essa é a rede padrão para qualquer container, a menos que associemos, explicitamente, outra redde a ele. )
+# todos os containers q estão nessa rede poderão se comunicar via protocolo TCP/IP
+
+
+ # bind-address é para permitir a conectividade entre varios IPs disponiveis na rede 
+docker container run -d --name mysql -v dadosdb:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=numsey -e bind-address=0.0.0 mysql:5.7
+
+# neste comando não foi incluido o mapeamento de uma porta, o que significa q o container MYSQL não esta acessivel através de uma porta 
+# no sistema operacional HOST mas somente através do seu UP na rede 
+
+
+# -----------------------------------------------------------------------------------------------------------------------------
+
+# Conectando containeres na rede
+
+# criando container mysql  com base em uma imagem MySql
+ 
+# criando volume alunosdata no HOST  e mapear para PASTA /var/lib/mysql do container
+# criar um banco de dados AlunosDB
+# criar uma tabela Alunos
+# incluir dados na tabela
+
+# com base na imagem do microsoft/dotnet:2.2-aspnetcore-runtime
+ # criar uma aplicação AspNet Core MVC utilizando um Dockerfile criando uma aplicação customizada
+
+# criar um container da imagem da aplicação criada com o Dockerfile
+
+# fazer isso utilizando recursos de rede do Docker setando a variavel de ambiente DBHOST
+
+# antes de tudo baixar as imagens q serão utilizadas usando o comando 
+docker pull nome_da_imagem
+
+
+  # roteiro base para o container MySql
+# -----------------------------------------------------------------------------------------------
+ # Contaienr MySql
+  # criar um voluno chamado  ALUNOSDATA
+    docker volume create alunosdata   nome_do_volume
+
+  # criar container usando a imagem MySql:  mysql:5.7
+     # -d executar em segundo plano
+     # --name dar o nome do container 
+     # -v identifica o nome do volume
+     # -e identifica o nome da variavel de ambiente
+     # bind-address nome da variavel de ambiente q identifica as requisições de interface de rede
+     # mysql no final identifica o nome da imagem que sera usada para gerar o container
+
+    docker container run -d --name mysql -v alunosdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=numsey -e bind-address=0.0.0 mysl:5.7 
+  
+   # para criar o banco de dados
+    # exec -it  é para executar o container no mode iterativo 
+    # mysql identifica o nome_da_imagem 
+    # /bin/bash  ideinfica o comando q será executado no container ao abri-lo
+       docker container exec -it mysql /bin/bash
+
+  # acessar o mysql dentro do container
+   mysql -u root -p
+   #digitar a senha q foi difinida no momento q criou o container
+   numsey 
+
+  # criar o banco de dados
+   create database AlunosDB
+
+  # usar o banco de dados
+   use AlunosDB
+
+  # criar a tabela ALUNOS e incluir alguns dados
+    create table Alunos (AlunosId smallint unsigned auto_increment, Nome varchar(50) not null, constraint pk_alunos primary key(AlunosId));
+    insert into Alunos (Nome) Values ('teste');
+    insert into Alunos (Nome) Values ('teste1');    
+
+  # descobrir o endereco ip do container na rede (utilizando o comando): docker network inspect bridge
+   docker network inspect bridge
+   # no campo Containers tem a informação do IP para utilizar como referencia no outro contaienr da aplicação
+
+
+# para verificar logs do contaienr 
+docker logs -f nome_do_container
+
+# -----------------------------------------------------------------------------------------------
+ # fim container MySql
+
+# ------------------------------------------------------------------------------------------------------
+   # roteiro base para o contaienr da aplicação AspNet Core
+# ------------------------------------------------------------------------------------------------------------------------
+
+# criar a aplicação AspNet Core MVC usando EF Core para acessar os dados do MySql
+  dotnet new mvc
+# fazer o deploy da aplicação: (utilizando o comando): dotnet publish --configuration Releases --output dist
+  dotnet publish --configuration --output dist
+# criar imagem customizada com base na imagem:  microsft/dotnet:2.2-aspnetcore-runtime
+   # para criar a imagem deve-se criar um dockerfile
+ 
+# criar imagem:  docker build -t mvcalunos/app:1.0
+ docker build -t nome_da_imagem/app:1.0
+ 
+# criar container utilizando a imagem customizada e fazer a conexão com o contaienr MySql
+docker contaienr run -d --name mvc1 -p 5000:80 -e DBHOST=ip_do_mysql_listado_no_comando_network mvcalinos/app:1.0
+
+# ----------------------------------------------------------------------------------------------------------------------------------
+ # fim contaienr AspNet Core
+
+# -------------------------------------------------------------------------------------------------------------------------------------
+
+# docker compose 
+
+# cenario 
+ # um contaienr mvc 
+ # um container webapi
+ # um container de banco de dados
+
+# a combinação de containers, volumes e redes numa abordagem onde cada passo é executado manualmente é um processo sujeto a erros
+
+# cada comando deve ser inserido corretamente e as etapas devem ser executadas na ordem correta
+
+# ao pular ou executar uma etapa fora de ordem pode fazer com que sua aplicação venha falhar
+
+# para evitar todos esses problemas listados anteriormente que é utlizado o docker compose	
+
+# ------------------------------------------------------------------------------------------------------------------------
+
+# O DOCKER COMPOSE é uma ferramenta usada para descrever APLICAÇÔES COMPLEXAS e GERENCIAR OS CONTAINERS, AS REDES E OS VOLUMES que 
+# essas aplicações exigem para funcionar 
+
+# Ele simplifica o processo de CONFIGURAÇÂO E EXECUÇÂO de aplicativos para que vc não precise digitar comando complexos, o q pode levar
+# a erros de configuração
+
+# Ele é usando para descrever aplicações de forma consistente e previsível usando UM ARQUVO DE COMPOSIÇÂO (extensão: yml) q contem detalhes
+# de todos os VOLUMES, REDES, e CONTAINERS q compoem o aplicativo e OS RELACIONAMENTOS ENTRE ELES
+
+# Para prcessar o ARQUIVO DE COMPOSIÇÂO usamos o comando:  docker-compose
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+
+# criando arquivo de composição
+
+# criando redes customizadas
+docker create network nome_da_rede
+
+# utiliza-se desse nome de rede para fazer a conexão entre os dois containers
+
+# ao invés de criar REDES, VOLUMES, CONTAINERS manualmente usa-se o Docker Compose
+
+# Docker Compose é o orquestrador de containers do Docker
+
+# passos para utilização do docker compose
+
+# 1 criar um arquivo docker-compose.yml
+
+# ------------------------------------------------------------------------------------------------------------
+  # roteiro base
+# -------------------------------------------------------------------------------------------------------------------------------------
+# 1 definir o ambiente necessario para a sua aplicação funcionar utilizando o Dockerfile
+# 2 criar o arquivo de composiçã0  docker-compose.yml definindo quais REDES, VOLUMES E SERVIÇOS são essenciais para a sua aplicação 
+  # funcionar e o relacionamento entre eles
+# 3 prqocessar o arquivo de composição (.yml) executando o comando:  docker-compose  para que o seu ambiente seja criado e configurado
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# fim do roteiro 
+
+# o arquivo de composição é o ponto de partida na utilização do  Docker Compose
+
+# --------------------------------------
+ # especifica a versão do esquema Docker Compose q o arquivo usa. Atualmente a versão mais recente é a '3'
+version: "3" 
+
+# é usada para configurar os volumes que serão usados pelos containers definidos para compor o arquivo. Nome definido foi o 'alunosdata'
+volumes:
+   alunosdata: (nome_do_volume)
+
+# é usado para configurar as redes q serão usadas pelos containers definidos no arquivo. Nome da rede foi 'backednd'
+network:
+  backend: (nome_da_rede)
+
+# define os containers q serão usados (imagens, contextos e etc)
+services:
+  
+# ----------------------------
+
+#YAML éum formato usado para criar arquivos de configuração de facil leitura e organiza o arquivo em SEÇõES e usa a IDENTAÇÃO COM ESPAÇOS 
+#para espressar a estrutura do arquivo 
+
+# links 
+https://docs.docker.com/compose-file
+https://yaml.org/spec/1.2/spec.html
+
+# ------------------------------------------------------------------------------------
+
+# criando container a partir da imagem MySql
+docker container run -d --name mysql -v alunosdata:/var/lib/mysql --network backend -e MYSQL_ROOT_PASSWORD=numsey 
+-e bind-address=0.0.0.0 mysql:5.7
+
+# --name identifica o nome do container 
+# -v identifica o volume de onde ficará armazenado os dados salvos no banco de dados
+# -e identifica variavel de ambiente do banco de dados
+# mysql:5.7  imagem base para criar esse container
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+  # somente criado onde o banco de dados esta vazio
+# arquivo compose
+
+version: "3"
+
+volumes: 
+  alunosdata:
+
+network:
+  backend:
+
+services:
+  
+  mysql:
+    image: "mysql:5.7"
+    volumes:
+      - alunosdata:/var/lib/mysql
+    network:
+      -backend
+    enviroment:
+      - MYSQL_ROOT_PASSWORD=numsey
+      - bind-address=0.0.0.0
+
+# fim arquivo
+
+# para verificar sintaxe do arquivo 
+docker-compose build 
+
+# fazer um teste 
+  # processar o arquivo de composição e iniciar a aplicação
+docker-compose up -d
+# -d para criar em segundo plano
+
+# desfazer a operação 
+ # para remover os containers, redes e volumes descritos no arquivo de composição 
+docker-compose down -v
+
+# --------------------------------------------------------------
+ # concluindo o arquivo de composição
+
+# dentro da pasta do projeto definir uma pasta com o script para criar o banco de dados e popular
+_mysql_init_scripts --> pasta
+init.sql --> arquivo
+
+# arquivo init.sql
+create database AlunosDB;
+use AlunosDB;
+drop table if exists "Alunos"
+create table Alunos
+(
+ 'AlunoId' int not null auto_increment,
+ 'Nome' varchar(60) not null,
+ primary key ('AlunoId')
+)ENGINE=InnoDB DEFAULT charset=utf8;
+
+LOCK TABLE 'Alunos' WRITTE;
+insert into 'Alunos' values ('teste')
+insert into 'Alunos' values ('teste1')
+
+UNLOCK TABLES;
+
+# fim init.sql
+
+# antes de criar o arquivo de compose deve-se primeiro ter feito a publicação da aplicação. por exemplo 'mvc' gerando os arquivos de deploy
+
+# inicio arquivo docker-compose
+
+version: "3"
+
+volumes:
+  alunosdata:
+
+network:
+  backend:
+
+services:
+
+  mysql:
+    image: "mysql:5.7"
+    volumes:
+      - alunosdata:/var/lib/mysql
+      - ./_mysql_init_scripts:/Docker-entrypoint-initdb.d
+    network:
+      -backend
+    enviroment:
+      - MYSQL_ROOT_PASSWORD=numsey
+      - bind-address=0.0.0.0
+
+  mvc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    ports:
+      - 5000:80
+    environment:
+      - DBHOST=mysql
+      - ASPNETCORE_ENVIRONMENT=Developement
+    depends_on:
+      - mysql
+
+# fim do arquivo docker-compose
+
+# build
+  indica o inicio da seção 'build' que diz ao Docker como criar a imagem para o container deste serviço
+# context
+  define o diretório do 'contexto' que será usado para criar a imagem. Usa o diretório atual do projeto MVC
+# dockerfile 
+  especifica o arquivo 'dockerfile' usado para criar a imagem
+# ports
+  define o mapeamento das portas
+# DBHOST
+  define o nome do host
+# depends_on
+  diz ao Docker a ordem na qual os containers serão criados. Aqui o container MYSQL será iniciado antes do container MVC
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------
