@@ -1,0 +1,85 @@
+# comando netcore cli
+
+# criando uma solution
+  # usa o nome da pasta atual
+ # especifica o nome da solution
+dotnet new sln --name minhaSolution
+
+# criando um novo projeto
+ # comando dotnet new --> lista todos os tipos disponiveis
+
+dotnet new [tipo do projeto] ( mvc, webapi, classlib, xunit, ... )
+# ou
+dotnet new [tipo do projeto] ( mvc, webapi, classlib, xunit, .... )  --name meuProjeto
+
+# gerenciar projetos na solution
+dotnet sln minhaSolution.sln add path/meuProjeto.csproj
+# ou
+dotnet sln minhaSolution.sln add path1/proj1.csproj path2/proj2.csproj
+
+# exibe todos os projetos
+dotnet sln minhaSolution.sln list
+
+
+# gerenciar pacotes nuget no projeto
+ # adicionar pacote
+dotnet add package nomePacote
+dotnet add meuproj.csproj package nomePacote
+
+
+ # remove pacote
+dotnet remove package nomePacote
+dotnet remove meuproj.csproj package nomePacote
+
+
+# gerencia referencia no projeto
+ # adicioanr referencia
+dotnet add reference path/meuproject.csproj
+dotnet add meuproject.csproj reference path/minharef.csproj
+
+
+ # remover referencia
+dotnet remove reference path/meuproject.csproj
+dotnet remove meuproject.csproj reference path/minharef.csproj
+
+
+ # lista de todas as referencias no csproj
+dotnet list reference
+dotnet list meuproject.csproj reference 
+
+
+# executar e construir ( build ) Solutions
+ # comandos
+dotnet restore  
+dotnet clean    
+dotnet build
+dotnet run
+
+
+# especificar projeto de destino 
+dotnet [command] -p meuproject/meuproject.csproj
+
+# build no modo release 
+dotnet [command] -c release 
+
+
+# fazer o deploy de uma Solution 
+dotnet pack
+dotnet pack path/meuproj.csproj
+
+ # usar o modo release
+dotnet pack -c release
+
+ # saida meuproj.1.0.0-Preview.nupkg
+dotnet pack path/meuproj.csproj --version-suffix Preview
+
+dotnet publish
+dotnet publish -p meuproj.csproj
+dotnet publish -c release
+
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
