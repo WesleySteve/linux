@@ -1,0 +1,1 @@
+sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=senha123" -p 1433:1433 --name sqlserver2017 -v /home/wesley/imagens/SQLServer2017:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2017-latest
