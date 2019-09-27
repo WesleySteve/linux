@@ -1,1 +1,18 @@
-sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=senha123" -p 1433:1433 --name sqlserver2017 -v /opt/imagens/SQLServer2017:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2017-latest
+# comando para criar um container docker do sqlserver2017
+
+sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=senha123' -p 1433:1433 --name sqlserver2017 -v /opt/imagensDocker/SqlServer2017:/var/opt/mssql -d microsoft/mssql-server-linux:2017-latest
+
+
+# comandos para testar o container 
+  # acessa o container no modo iterativo 
+sudo docker exec -it nome_do_container "bash"	
+
+# comandos dentro do container de teste
+seelct @@version
+go
+
+select name from databases;
+go
+
+# para sair do container 
+exit
