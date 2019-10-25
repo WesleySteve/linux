@@ -1,0 +1,21 @@
+para iniciar um projeto deve-se
+
+ criar uma pasta do projeto
+ entrar na pasta e gerar o virtualenv com o nome de .venv
+    virtualenv --python=versao_do_python nome_do_ambiente
+        rodar o comando source para ativar a virtualenv
+	    ex: source bin/activate
+        para desativar a virtualenv digite o comando deactivate
+            virtualenv --python=python3 .venv
+com a virtualenv criada e inicializada deve-se instalar as dependencias do projeto 
+    ex: pip install django
+gerar um arquivo requirements.txt para armazenar todas as dependencias do projeto
+    pip freeze > requirements.txt
+    
+
+
+QUANDO BAIXAR O CODIGO DO GITHUB DEVE-SE
+  rodar virtualenv --python=python3 .venv para criar o ambiente isolado
+  rodar pip install -r requirements.txt para instalar as dependencias do projeto
+
+
