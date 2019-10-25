@@ -7,5 +7,8 @@ rodar o comando source para ativar a virtualenv
 para desativar a virtualenv digite o comando deactivate
 
 
+virtualenv --python=python3 .venv
+
+
 
 
