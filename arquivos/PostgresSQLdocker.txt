@@ -1,0 +1,3 @@
+sudo docker run --name postgress -e POSTGRES_PASSWORD=123 -d -p 5432:5432 -v /opt/imagensDocker/Postgress:/var/lib/postgresql/data postgres
+
+
