@@ -1,3 +1,26 @@
+# para criar o virtualenv com pipenv
+pipenv --python python3
+
+rodar o comando pipenv shell para ativar a virtualenv
+
+para instalar pacotes via arquivo.txt
+  pipenv install -r requirements.txt
+
+para desativar utiliza do comando deactivate
+ depois utiliza exit
+
+para instalar pacotes rodar o comando
+ para instalar dependencias do projeto
+   pipenv install nome_do_pacote
+ para instalar dependencias de desenvolvimento
+   pipenv install -d nome_do_pacote 
+
+
+para atualizar o pipenv
+  pipenv update
+
+----------------------------------------------------------------------
+
 # para criar o virtualenv
 python3 -m venv .venv
 
