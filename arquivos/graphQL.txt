@@ -1,0 +1,3 @@
+graphQL - flask
+
+pipenv install flask flask-graphql graphene

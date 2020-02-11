@@ -1,0 +1,13 @@
+pytest snapshot
+
+pip install snapshottest
+
+anotacoes 
+ rodar o 
+  pytest 
+    isso vai passar o teste e criar uma snapshot
+
+  se trocar o valor base do teste irá falhar então rode
+    pytest --snapshot-update
+     isso irá atualizar o snapshot e o teste irá passar
+

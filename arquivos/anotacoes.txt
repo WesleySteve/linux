@@ -1,0 +1,72 @@
+criando uma aplicação frontend com degit
+ nome_do_usuario degit
+ nome_repositorio template
+ nome_do_projeto  nome_qual_quer  
+
+  degit sveltejs/template frontend
+
+acesse o diretorio e rode o comando
+   yarn install
+para rodar o projeto
+   yarn dev
+
+podemos criar as paginas de forma padrão ou utilizar uma lib chamada sveltestrap
+   yarn add sveltestrap
+ela se baseia na lib do bootstrap que podemos linkar via cdn ou instalar o bootstrap na aplicação
+
+para utilizar qualquer componente precisamos fazer o import do mesmo 
+ dentro da tag 
+
+<script>
+  Import { Button } from 'sveltestrap'
+</script>
+
+mt -> margin-top: 5
+<Button color="success" class="mt-5">Adicionar</Button>
+
+-------------------------------------------------------------------------------------------------
+
+dentro da tag <script> </script>
+ criar uma variavel com let products []
+
+exemplo de função para adicionar em uma lista
+   criar uma function addAlgumaCoisa(ev) {
+      # isso é para fazer q o navegador n de refresh
+    ev.preventDefault();  
+    const product = { id: 4, title: title, status: true };
+    products = [...products, product];
+    title = "";
+
+chamada no button on:click={addAlgumaCoisa}
+
+-------------------------------------------------------------------------------------------------
+
+criando ambiente isolado para o backend
+       pipenv --three
+    depois pipenv install pacotes
+        python-dotenv com pipenv python-dotenv --dev
+     depois criar o arquivo .env com as variaveis de ambiente
+        FLASK_APP=main.py
+        FLASK_ENV=development
+      depois shell para entrar no ambiente com
+        pipenv shell  
+      q irá carregar as variaveis de ambiente 
+
+ comandos flask no terminal
+   flask shell
+
+-----------------------------------------------------------------------------
+
+para inicializar o banco com o migrate
+
+ flask db init
+   gera as migrates
+ flask db migrate
+   faz a migrate
+ flask upgrade
+   para refletir de fato no banco
+ 
+
+
+----------------------------------------------------------------------------
+    

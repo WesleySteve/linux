@@ -1,0 +1,52 @@
+Como rodar esse projeto
+
+export FLASK_APP=app
+export FLASK_ENV=Development
+export FLASK_DEBUG=True
+
+flask run
+
+--------------------------------------------------------------------
+
+Como fazer as migrações
+
+flask db init
+flask db migrate
+flask db upgrade
+
+-----------------------------------------------------------------------
+
+pytest snapshot
+
+pip install snapshottest
+
+anotacoes 
+ rodar o 
+  pytest 
+    isso vai passar o teste e criar uma snapshot
+
+  se trocar o valor base do teste irá falhar então rode
+    pytest --snapshot-update
+     isso irá atualizar o snapshot e o teste irá passar
+
+
+----------------------------------------------------------------------------
+
+Como rodar os testes e obter cobertura
+
+# gera o report e roda os testes
+coverage run --source=app -m pytest -s tests/ -v
+# mostra um resumo da cobertura em shell
+coverage report
+# gera o path '/htmlcov' com htmls estáticos da cobertura
+coverage html
+
+------------------------------------------------------------------------
+
+Como rodar os testes de comportamento com BDD
+
+behave tests/behavior_tests/features/
+
+-------------------------------------------------------------------------
+
+
