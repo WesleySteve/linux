@@ -1,0 +1,83 @@
+seguir padroes de commit
+
+https://www.conventionalcommits.org/en/v1.0.0-beta.2/
+
+criar um diretorio com o nome do projeto
+    mkdir nome_projeto
+
+iniciar um repositorio git
+    git init
+
+iniciar o node
+    npm init -y
+
+primeiro commit, ja seguindo o padrão conventionalcommits
+    git c "chore: add npm'
+
+adiciona uma lib (essa lib garante que os commits vao seguir o padrao do conventionalcommits)
+    npm i -D git-commit-msg-linter
+
+adicionar .gitignore
+  .gitignore
+    adicionar 
+        node_modules
+        .vscode
+        coverage
+
+commita
+    git c "chore: add commit linter"
+
+instalar o typescript
+    npm i -D typescript @types/node
+
+crie o arquivo .tsconfig.json (na raiz do projeto)
+    arquivo padrao gerado pelo create-react-app
+
+commita
+    git c "chore: add tsconfig
+
+esLint
+    npm i -D eslint eslint-config-standard-with-typescript 
+             eslint-plugin-import eslint-plugin-promise esLint-plugin-standard
+             @typescript-eslint/eslint-plugin eslint-plugin-node
+
+crie o arquivo .eslintrc.json (na raiz do projeto)
+    arquivo de padrao
+
+crie o arquivo .eslintignore
+   node_modules
+  .vscode
+  coverage
+
+commita
+    git c "chore: add eslint"
+
+adicionar libs
+    npm i -D lint-staged husky
+
+crie o arquivo .lintstagedrc.json (na raiz do projeto)
+    "*.{ts,tsx}": [
+        "eslint 'src/**' --fix"
+    ]
+
+crie o arquivo .huskyrc.json (na raiz do projeto)
+    "hooks": {
+        "pre-commit': "lint-staged"
+    }
+
+commita
+    git c "chore: add lint-staged and husky"
+
+instalar o jest
+    npm i -D jest @types/jest ts-jest
+
+crie o arquivo jest.config.js (na raiz do projeto)
+    arquivo padrao
+
+crie a pasta src (na raiz do projeto)
+    src
+
+commita
+    git c "chore: add jest"
+    
+
