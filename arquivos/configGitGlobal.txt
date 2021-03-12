@@ -1,0 +1,42 @@
+use o comando
+
+(isso para deixar o editor das configurações do git com o code como padrao)
+    git config --global core.editor code
+
+(para editar as configurações do git)
+    git config --global --edit
+
+(na propriedade [core], para que o code espere o git carregar todas as informações)
+    colocamos --wait
+
+(criando atalhos)
+[alias]
+o --all --> indica q n importa em qual diretório vc esteja ele adiciona tudo
+    c = !git add --all && git commit -m
+versao reduzida do status
+    s = !git status -s
+mostra o git log personalizado
+    l = !git log --pretty=format:'%C(blue)%h %C(red)%d %C(white)%s - %C(cyan)%cn, %C(green)%cr'
+permite juntar um commit no commit anterior sem gerar um novo
+    a = !git add --all && git commit --amend --no-edit
+permite mostrar a estatistica
+    count = !git shortlog -s --grep
+
+(se criou tag no projeto ele adiciona)
+existe dois tipos de tag
+ normal
+  git tag "1.0" --> apenas para marcar
+ anotada
+  git tag -a "1.0.1" -m "mensagem" (para mostrar release)
+
+[push]
+followTags = true
+
+
+(tipos de commit)
+
+test: (teste)
+feat: (funciolidade)
+fix:  (bug)
+chore: (add libs, dependencia )
+docs:  (documentação do projeto)
