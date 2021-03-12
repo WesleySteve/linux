@@ -81,3 +81,18 @@ commita
     git c "chore: add jest"
     
 
+-------------------------------------------------------------------------------
+
+após confgurar o projeto
+
+iniciamos a criação dos testes
+
+criamos sempre o teste primeiro 
+em seguida criamos a implementação 
+
+assim que fazemos a implementação minima para o teste passar
+devemos commitar primeiro a classe de implementação e em seguida 
+a classe de teste
+
+e sempre irá seguir esse modelo
+
