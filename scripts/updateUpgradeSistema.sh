@@ -1,13 +1,11 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 echo""
 echo "Inicio"
 echo ""
-apt-get update -y
-sleep 1
-apt-get upgrade -y
-sleep 1
-apt-get autoremove
+sudo apt-get update -y 
+sudo apt-get upgrade -y
+sudo apt-get autoremove
 echo ""
 echo "Finalizado"
 sleep 1

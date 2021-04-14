@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #echo limpando a lixeira
 #rm -rf /home/$USER/.local/share/Trash/files/*
@@ -7,17 +7,17 @@
 echo""
 
 echo "Limpando a pasta TMP"
-rm -rf /var/tmp/*
+sudo rm -rf /var/tmp/*
 echo ""
 echo "Exclusão de programas que não estão sendo mais utilizados"
-apt-get autoremove -y
+sudo apt-get autoremove -y
 echo ""
 echo "Exclusão de arquivos duplicados"
-apt-get autoclean -y
+sudo apt-get autoclean -y
 echo ""
 echo "Reparando pacotes quebrados durante a instalação e atualização"
-dpkg --configure -a
+sudo dpkg --configure -a
 echo ""
 echo "Limpeza Concluida"
-sleep 3
+sleep 1
 exit;
