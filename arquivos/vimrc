@@ -1,0 +1,145 @@
+
+" ativar sintaxe colorida
+syntax on
+
+" ativar indentação automática
+set autoindent
+" ativa o modo de pesquisa automática
+set incsearch
+" ativando um menu de opções de help
+set wildmenu
+" aparece um menu amigavel
+set confirm
+
+" ativa indentação inteligente, o Vim tentará adivinhar
+" qual é a melhor indentação para o código quando você
+" efetuar quebra de linha. Funciona bem para linguagem C
+set smartindent
+
+" por padrão o vim armazena os últimos 50 comandos que você
+" digitou em seu histórico. Eu sou exagerado, prefiro armazenar
+" os últimos 5000
+set history=5000
+
+" ativar numeração de linha
+set number
+
+" destaca a linha em que o cursor está posicionado
+" ótimo para quem não enxerga muito bem
+set cursorline
+
+" ativa o clique do mouse para navegação pelos documentos
+set mouse=a
+
+" ativa o compartilhamento de área de transferência entre o Vim
+" e a interface gráfica
+set clipboard=unnamedplus
+
+" converte o tab em espaços em branco
+" ao teclar tab o Vim irá substutuir por 2 espaços
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2
+
+" ao teclar a barra de espaço no modo normal, o Vim
+" irá colapsar ou expandir o bloco de código do cursor
+" foldlevel é a partir de que nível de indentação o 
+" código iniciará colapsado
+set foldmethod=syntax
+set foldlevel=99
+nnoremap <space> za
+
+" define a cor padrão do editor
+" colo anderson
+colo challenger_deep
+
+" define as indentações habilitadas por padrão ao abrir um arquivo
+let g:indentLine_enabled = 1
+" mapiando uma combinação de teclas para ativa/desativar a marcação das linhas
+map <c-k>i :IndentLinesToggle<cr>
+" mapiando uma combinação de teclas para abrir o explorador de arquivos
+map <C-n> :NERDTreeToggle<cr>
+" configurando o nerdtree com encoding=utf8
+set encoding=utf8
+" definindo a font para o vim com seu tamanho
+set guifont=Anonymice\ Nerd\ Font\ Mono:h14
+
+set laststatus=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_statusline_ontop=0
+let g:airline_theme='base16_twilight'
+
+let g:airline#extensions#tabline#formatter = 'default'
+" navegação entre os buffers
+" vai para o buffer next M-Right (Alt + seta direita)
+nnoremap <M-Right> :bn<cr>
+" buffer preview  (Alt + seta esqueda)
+nnoremap <M-Left> :bp<cr>
+" volta para o ultima buffer preview e apaga o ultimo aberto 
+"   fechando arquivo (Ctrl + x)
+nnoremap <c-x> :bp\|bd #<cr>
+" define as extenssões de arquivos que serão ignorados pelo vim para edição
+let g:ctrlp_custom_ignore = '\v[\/]\.(swp|zip|gzip|xz)$'
+" somente irá listar os arquivos que NÃO estão listados no .gitignore, ele exclue aqueles arquivos
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" para exibir arquivos ocultos
+let g:ctrlp_show_hidden = 1
+" para o vim identificar qual a linguagem de programação qu esta aberta, e irá adicionar os comentarios de acordo com o tipo de arquivo aberto no momento
+filetype plugin on
+" define um espaço em branco entre o comentario e o caracter
+let g:NERDSpaceDelims = 1
+" alinhamento a esquerda
+let g:NERDDefaultAlign = 'left'
+" mapiando a tecla cc para comentar uma linha, se a linha estiver comentada ele descomenta
+map cc <Plug>NERDCommenterInvert
+" mapiando a tecla cs para fazer comentarios multi-linhas
+"map cs <>
+" linter
+let g:ale_linters = {'python': ['flake8', 'pylint'], 'javascript': ['eslint']}
+" desabilitando o auto-completar deste plugin
+let g:ale_completion_enabled = 0
+"
+" let g:ale_fixers = {
+"      'python': ['yapf'],
+"  }
+" nmap <F10> :ALEFix<CR>
+" let g:ale_fix_on_save = 1
+
+source /home/wesley/.vim/coc.nvimrc
+
+" plugins instalados
+"   mostra a tela inicial personalizada
+" vim-startify
+"   traz uma serie de themas de cores novas
+" awesome-vim-colorschemes
+"   mostra uma linha pontilhada apresentando a identação
+" indentLine
+"   mostra a lista de diretorios
+" nerdtree
+"   mostra icones no nerdtree
+" vim-devicons
+"   mostra uma barra de status
+" vim-airline
+"   complemento ao vim-airline
+" vim-airline-theme
+"   mostra uma barra superior para pesquisar arquivos
+" ctrlp.vim
+"   é usado para adicionar comentarios de forma rapida
+" nerdcommenter
+"   faz a função do emment igual ao do vscode
+" emmet-vim
+"   lint (avisa) e fixer (corrige altomaticamente) de codigo
+" ale
+"   complementa o syntax do vim para reconhecer a syntax de lingagem de
+"   programação mais modernas
+" vim-polyglot
+"   intelisence vim semelhante ao do vscode
+" coc.nvim
+"   suporte a pares de caracteres (selecione uma palavra e precione)  (shift + s) e coloque o par de caracter desejado
+" vim-surround
+"   auto pairs (auto completa caracteres)
+" vim-surround
+"   view instant markdown no navegador
+" vim-instant-markdown
+"   auto complete markdown
+" vim-auto-markdown
+ 
