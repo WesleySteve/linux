@@ -1,0 +1,15 @@
+atalhos do vim
+  para abrir o explorador de arquivos
+    ctrl + n
+  para abrir um arquivo do explorador de arquivos
+    selecione o arquivo e precione enter
+  para voltar do arquivo para o explorador de arquivos
+    ctrl + ww
+  para mudar de arquivo caso tenha mais de um arquivo aberto
+    alt + seta direita/esquerda
+
+  emment
+    ctrl + y + , 
+      digita a tag desejada
+        exemplo: div, h1, (
+

@@ -1,0 +1,15 @@
+para configurar os plugins do coc.nvim no vim
+  entramos com o comando
+
+:CocInstall coc-nome_do_pacote
+
+pacotes a serem instalados
+
+:CocInstall coc-tsserver coc-json coc-html coc-css
+:CocInstall coc-python coc-jedi
+:CocInstall coc-sh
+:CocInstall coc-snippets coc-git
+
+para configurar o settings
+
+:CocConfig
