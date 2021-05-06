@@ -1,10 +1,10 @@
 
-" ativar sintaxe colorida
+"ativar sintaxe colorida
 syntax on
 
 " ativar indentação automática
 set autoindent
-" ativa o modo de pesquisa automática
+"ativa o modo de pesquisa automática
 set incsearch
 " ativando um menu de opções de help
 set wildmenu
@@ -47,16 +47,16 @@ set foldmethod=syntax
 set foldlevel=99
 nnoremap <space> za
 
-" define a cor padrão do editor
-" colo anderson
+" define a cor padrão do editor usando os temas airline_theme
 " colo challenger_deep
+
 
 " define as indentações habilitadas por padrão ao abrir um arquivo
 let g:indentLine_enabled = 1
 " mapiando uma combinação de teclas para ativa/desativar a marcação das linhas
 map <c-k>i :IndentLinesToggle<cr>
 " mapiando uma combinação de teclas para abrir o explorador de arquivos
-map <C-n> :NERDTreeToggle<cr>
+map <C-b> :NERDTreeToggle<cr>
 " configurando o nerdtree com encoding=utf8
 set encoding=utf8
 " definindo a font para o vim com seu tamanho
@@ -66,7 +66,15 @@ set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_statusline_ontop=0
-let g:airline_theme='base16_twilight'
+" define o tema do editor
+"let g:airline_theme='alduin'
+let g:airline_theme='badwolf'
+"let g:airline_theme='base16'
+
+"let g:airline_theme='alduin'
+"let g:airline_theme='alduin'
+"let g:airline_theme='alduin'
+
 
 let g:airline#extensions#tabline#formatter = 'default'
 " navegação entre os buffers
@@ -106,8 +114,27 @@ let g:ale_completion_enabled = 0
 "
 " carregar configuração do coc.nvimrc
 source $HOME/.vim/coc.nvimrc
-" carregar o theme terro
-source $HOME/.vim/pack/git-plugins/start/vim-themes/themes/terroo-colors.vim
+" carrega o tema para o editor terro
+source $HOME/.vim/pack/git-plugins/start/themes/terroo-colors.vim
+
+
+" função para colocar um terminal dentro do vim
+function Terminal()
+  " verificar se o terminal está aberto
+  let terminal = bufname('bash')
+  if terminal == ''
+    below terminal ++rows=10
+  else
+    let bnr = bufnr(terminal)
+    exec ':bwipe! ' bnr
+  endif
+endfunction
+
+" mapeando uma tecla para abrir um terminal
+map <c-t> :call Terminal()<cr>
+autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+
+
 
 " plugins instalados
 "   mostra a tela inicial personalizada
