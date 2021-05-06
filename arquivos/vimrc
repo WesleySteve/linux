@@ -49,7 +49,7 @@ nnoremap <space> za
 
 " define a cor padrão do editor
 " colo anderson
-colo challenger_deep
+" colo challenger_deep
 
 " define as indentações habilitadas por padrão ao abrir um arquivo
 let g:indentLine_enabled = 1
@@ -103,8 +103,11 @@ let g:ale_completion_enabled = 0
 "  }
 " nmap <F10> :ALEFix<CR>
 " let g:ale_fix_on_save = 1
-
-source /home/wesley/.vim/coc.nvimrc
+"
+" carregar configuração do coc.nvimrc
+source $HOME/.vim/coc.nvimrc
+" carregar o theme terro
+source $HOME/.vim/pack/git-plugins/start/vim-themes/themes/terroo-colors.vim
 
 " plugins instalados
 "   mostra a tela inicial personalizada
@@ -142,4 +145,6 @@ source /home/wesley/.vim/coc.nvimrc
 " vim-instant-markdown
 "   auto complete markdown
 " vim-auto-markdown
- 
+"   theme terro (terminalroot)
+" vim-themes
+
