@@ -1,0 +1,29 @@
+comando para gerenciar as tarefas
+
+crontab -e ==> editar
+crontab -l ==> lista as tarefas
+
+ordem das tarefas
+
+# MINUTOS   HORA  DIA_DO_MES  MES   DIA_DA_SEMANA   COMANDO
+                                     0 e 7 = dom
+# 0-59      0-23     1-31     1-12       0-7         prog.sh 
+# 0-59      0-23     1-31     1-12       0-7         teste.py
+
+# cada 5min
+# */5 8-18 * 1,7,12 1-5 bash meu_script.sh
+
+    0         *        *       *         0           update.sh
+
+
+
+diretorios da crontab
+
+/etc/cron. e dois TAB ==> para mostrar as opções
+
+daily == diariamente
+hourly == a cada hora
+monthly == mensalmente
+weekly == semanalmente
+
+
